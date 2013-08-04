@@ -1,4 +1,4 @@
 RegionViewer
 ============
 
-Allows you to export a region (group of objects) to several different types of graph files.
+Allows you to export a region (group of objects on a JVM) to several different types of graph files.
