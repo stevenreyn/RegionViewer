@@ -15,7 +15,10 @@ public class Foo implements Comparable<Foo> {
 
 	@Override
 	public int hashCode() {
-		return ID;
+		// Return a smaller hashcode so that
+		// we can observe collisions. Don't do this
+		// in real life.
+		return ID & 0xFFFF;
 	}
 
 	@Override
