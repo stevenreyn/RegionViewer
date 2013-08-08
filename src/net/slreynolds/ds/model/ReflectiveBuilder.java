@@ -28,6 +28,9 @@ public class ReflectiveBuilder implements Builder {
 		graph.addEdge(symbol, first);
 		while (context.hasPointsToBuild()) {
 			GraphPointSuspension gpSuspension = context.dequeuePointToBuild();
+			if (gpSuspension.getObject().getClass().getSimpleName().endsWith("Node")) {
+				System.out.printf("bingo");
+			}
 			if (context.hasPoint(gpSuspension.getObject()))
 				continue;
 			

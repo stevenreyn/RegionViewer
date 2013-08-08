@@ -96,8 +96,11 @@ public class NodeBuilder  {
 					Field[] fields = clazz.getDeclaredFields();
 
 					for (Field field : fields) {
-						if (field.isSynthetic())
-							continue;
+						/* Scala compiler puts some important fields as synthetic,
+						 * so don't dare skip them
+						 */
+						//if (field.isSynthetic())
+						//	continue;
 						if (shouldSkip(o,field))
 							continue;
 						field.setAccessible(true);
