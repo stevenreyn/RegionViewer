@@ -45,7 +45,7 @@ public class SimpleGraphVizExporter extends AbstractSimpleExporter {
 		else {
 			shapeSpecifier = "";
 		}
-		ostream.printf("node%s",vertex.getID());
+		ostream.printf("node%s", filterID(vertex.getID()));
         ostream.printf("[label = \"%s\" %s", vertex.getLabel(),shapeSpecifier);
         ostream.printf(" fillcolor=\"#%2x%2x%2x\" style=filled ",c.getRed(),c.getGreen(),c.getBlue() );
         ostream.printf("];\n");
@@ -54,7 +54,9 @@ public class SimpleGraphVizExporter extends AbstractSimpleExporter {
 	@Override
     protected void exportEdge(ExportEdge edge) { 
 		ostream.printf("   node%s -> node%s [ label = \"%s\" ];\n", 
-				edge.getFromID(),edge.getToID(),edge.getLabel());
+				filterID(edge.getFromID()),
+				filterID(edge.getToID()),
+				edge.getLabel());
 	}
     
 	@Override
@@ -63,4 +65,10 @@ public class SimpleGraphVizExporter extends AbstractSimpleExporter {
         ostream.close();
     }
     
+	private static String filterID(int id) {
+		if (id >= 0) {
+			return String.format("%d",id);
+		}
+		return String.format("m%d",-id);
+	}
 }
