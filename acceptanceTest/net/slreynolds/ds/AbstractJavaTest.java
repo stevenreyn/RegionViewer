@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import net.slreynolds.ds.export.ExporterOptions;
 import net.slreynolds.ds.export.GraphVizExporter;
-import net.slreynolds.ds.export.TulipExporter;
+import net.slreynolds.ds.export.SimpleGraphVizExporter;
 import net.slreynolds.ds.model.BuilderOptions;
 
 public abstract class AbstractJavaTest {
@@ -22,14 +22,14 @@ public abstract class AbstractJavaTest {
 
 	protected void saveToFiles(Object[] objs, String[] names, String fileName) {
 			    ObjectSaver gvizSaver = new ObjectSaver(new GraphVizExporter());
-			    ObjectSaver tulipSaver = new ObjectSaver(new TulipExporter());
+			    ObjectSaver simpleGvizSaver = new ObjectSaver(new SimpleGraphVizExporter());
 			    HashMap<String,Object> options = new HashMap<String,Object>();
 			    options.put(BuilderOptions.INLINE_STRINGS,Boolean.FALSE);
 			    
 			    options.put(ExporterOptions.OUTPUT_PATH, path+'/'+fileName+".dot");
 			    gvizSaver.save(objs,names, options);
-			    options.put(ExporterOptions.OUTPUT_PATH, path+'/'+fileName+".tlp");
-			    tulipSaver.save(objs,names, options);
+			    options.put(ExporterOptions.OUTPUT_PATH, path+'/'+fileName+"_simple.dot");
+			    simpleGvizSaver.save(objs,names, options);
 	}
 	
 
