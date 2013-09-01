@@ -1,5 +1,5 @@
 
-package net.slreynolds.util;
+package net.slreynolds.ds.util;
 
 import net.slreynolds.ds.model.GraphPoint;
 import net.slreynolds.ds.model.Named;

@@ -1,7 +1,6 @@
 
 package net.slreynolds.ds.export;
 
-import net.slreynolds.util.FileUtil;
 
 import java.awt.Color;
 import java.io.File;
@@ -15,6 +14,7 @@ import net.slreynolds.ds.model.Graph;
 import net.slreynolds.ds.model.GraphPoint;
 import net.slreynolds.ds.model.Named;
 import net.slreynolds.ds.model.NodeArray;
+import net.slreynolds.ds.util.FileUtil;
 
 /**
  * Export graph to GraphViz file format. See

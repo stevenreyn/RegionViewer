@@ -13,7 +13,7 @@ import net.slreynolds.ds.model.GraphPoint;
 import net.slreynolds.ds.model.Named;
 import net.slreynolds.ds.model.Node;
 import net.slreynolds.ds.model.NodeArray;
-import net.slreynolds.util.FileUtil;
+import net.slreynolds.ds.util.FileUtil;
 
 /**
  * Base class for the simple file exporters that save the graph

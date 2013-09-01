@@ -1,5 +1,5 @@
 
-package net.slreynolds.util;
+package net.slreynolds.ds.util;
 
 import java.io.File;
 import java.io.IOException;

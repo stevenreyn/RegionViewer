@@ -4,7 +4,10 @@ package net.slreynolds.ds.model.builder;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.List;
+
 
 import net.slreynolds.ds.model.BuildException;
 import net.slreynolds.ds.model.BuilderOptions;
@@ -14,7 +17,8 @@ import net.slreynolds.ds.model.Named;
 import net.slreynolds.ds.model.NamedIDGenerator;
 import net.slreynolds.ds.model.Node;
 import net.slreynolds.ds.model.NodeArray;
-import net.slreynolds.util.NodeUtil;
+import net.slreynolds.ds.util.NodeUtil;
+import net.slreynolds.ds.util.Pair;
 
 /**
  *
@@ -28,6 +32,7 @@ public class NodeBuilder  {
 			System.err.printf("Won't build a null\n");
 			return null;
 		}
+		
 		final Map<String,Object> options = context.getOptions();
 		final boolean showSystemHash =
 				(options.containsKey(BuilderOptions.SHOW_SYSHASH) ? 
@@ -84,28 +89,19 @@ public class NodeBuilder  {
 				Node node = new Node(NamedIDGenerator.next(),generation);
 				// TODO try to get generic info?
 				node.putAttr(Named.CLASS, classname); 
-				if (showSystemHash)
+				if (showSystemHash) {
 					NodeUtil.addSystemHash(node, o);
-
+				}
 				Class<?> clazz = o.getClass();
-				// Do not follow scala.collection.parallel.*TaskSupport else we
-				// get into a big tangle that GraphViz chokes on
-				final boolean isTaskSupportInstance = clazz.getName().endsWith("TaskSupport");
-				// Also do not follow Class (because it is complicated and not interesting in this context)
-				final boolean isClassInstance = clazz.getName().equals("java.lang.Class");
-				final boolean shouldFollowReferences = !isTaskSupportInstance && !isClassInstance;
+
+				// TODO logic embodied by only exporting fields in this package should be injectable by users
 				while (clazz != null && classNameToPackage(clazz.getName()).equals(packageNameOfInstance)) {
 					Field[] fields = clazz.getDeclaredFields();
 
 					for (Field field : fields) {
-						/* Scala compiler puts some important fields as synthetic,
-						 * so don't dare skip them
-						 */
-						//if (field.isSynthetic())
-						//	continue;
-						if (shouldSkip(o,field))
-							continue;
+						
 						field.setAccessible(true);
+						
 						final String fieldName = field.getName();
 						Object fieldValue = null;
 						try {
@@ -119,36 +115,26 @@ public class NodeBuilder  {
 							throw new BuildException("Error accessing field " + classname + "." + fieldName ,e);	
 						}    		
 
+						Pair<Boolean,List<String>> followAsPair = shouldFollowField(nestingLevel, MAX_NESTING, o, field);
+						if (!followAsPair.first()) {
+							List<String> reasons = followAsPair.second();
+							StringBuilder reason = new StringBuilder();
+							for (int i = 0; i < (reasons.size()- 1);i++) {
+								reason.append(reasons.get(i));
+								reason.append(", ");
+							}
+							reason.append(reasons.get(reasons.size()-1));
+							System.out.printf("Not following field %s:%s because %s.\n",
+									fieldName,fieldValue.getClass(),reason);
+							continue;
+						}
+						
 						if (shouldInlineField(o,field,options)) {
 							node.putAttr(fieldName,fieldValue);
 						}
-						else if (nestingLevel < MAX_NESTING && shouldFollowReferences) {
-							enqueueNode(context, nestingLevel, node, fieldName, fieldValue);
-						}
-						else {
-							String reason = "";
-							if (nestingLevel >= MAX_NESTING) {
-								reason = String.format("nestingLevel %s exceeds MAX_NESTING %d");
-							}
-							if (isTaskSupportInstance) {
-								if (reason.length() > 0) {
-									reason = String.format("%s and parent object instance of a TaskSupport", reason);
-								}
-								else {
-									reason = "Parent object instance of a TaskSupport";
-								}
-							}
-							if (isClassInstance) {
-								if (reason.length() > 0) {
-									reason = String.format("%s and parent object instance of a Class", reason);
-								}
-								else {
-									reason = "Parent object instance of a Class";
-								}
-							}
-							System.out.printf("Not following field %s:%s because %s.\n",
-									fieldName,fieldValue.getClass(),reason);
-						}
+						
+						enqueueNode(context, nestingLevel, node, fieldName, fieldValue);
+						
 					}
 					clazz = clazz.getSuperclass();
 				}
@@ -168,6 +154,49 @@ public class NodeBuilder  {
 			t.printStackTrace();
 			throw new RuntimeException(t);
 		}
+	}
+	
+	// TODO the logic embodied in shouldFollowField should be injectable by users
+	private static Pair<Boolean,List<String>> shouldFollowField(int nestingLevel, int MAX_NESTING, Object o, Field field) {
+		boolean shouldFollow = true;
+		List<String> reasons = new ArrayList<String>();
+		
+		/* Note: Scala compiler puts some important fields as synthetic,
+		 * so don't dare skip them
+		 */
+		if (nestingLevel >= MAX_NESTING) {
+    		shouldFollow = false;
+    		reasons.add(String.format("nestingLevel %s exceeds MAX_NESTING %d"));
+		}
+		
+    	if (field.getName().equals("serialVersionUID")) {
+    		shouldFollow = false;
+    		reasons.add("field named serialVersionUID");
+    	}
+    	
+    	if (field.getName().equals("serialPersistentFields")) {
+    		shouldFollow = false;
+    		reasons.add("field named serialPersistentFields");
+    	}
+    	
+    	if (Modifier.isStatic(field.getModifiers())) {
+    		shouldFollow = false;
+    		reasons.add("field is static");
+    	}
+
+		// Do not follow scala.collection.parallel.*TaskSupport else we
+		// get into a big tangle that GraphViz chokes on
+		if (o.getClass().getName().endsWith("TaskSupport")) {
+			shouldFollow = false;
+			reasons.add("Parent object is a TaskSupport");
+		}	
+		
+		// Similarly, following a Class is not interesting in this context
+		if (o.getClass().getName().equals("java.lang.Class")) {
+			shouldFollow = false;
+			reasons.add("Parent object is a java.lang.Class");
+		}	
+		return new Pair<Boolean,List<String>>(shouldFollow,reasons);
 	}
 
 	private static void enqueueNode(GraphBuildContext context, int nestingLevel, GraphPoint fromNode,
