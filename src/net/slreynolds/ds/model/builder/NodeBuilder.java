@@ -118,14 +118,16 @@ public class NodeBuilder  {
 						Pair<Boolean,List<String>> followAsPair = shouldFollowField(nestingLevel, MAX_NESTING, o, field);
 						if (!followAsPair.first()) {
 							List<String> reasons = followAsPair.second();
-							StringBuilder reason = new StringBuilder();
-							for (int i = 0; i < (reasons.size()- 1);i++) {
-								reason.append(reasons.get(i));
-								reason.append(", ");
+							if (reasons.size() > 0) {
+								StringBuilder reason = new StringBuilder();
+								for (int i = 0; i < (reasons.size()- 1);i++) {
+									reason.append(reasons.get(i));
+									reason.append(", ");
+								}
+								reason.append(reasons.get(reasons.size()-1));
+								System.out.printf("Not following field %s:%s because %s.\n",
+										fieldName,fieldValue.getClass(),reason);
 							}
-							reason.append(reasons.get(reasons.size()-1));
-							System.out.printf("Not following field %s:%s because %s.\n",
-									fieldName,fieldValue.getClass(),reason);
 							continue;
 						}
 						
@@ -161,12 +163,19 @@ public class NodeBuilder  {
 		boolean shouldFollow = true;
 		List<String> reasons = new ArrayList<String>();
 		
+    	if (Modifier.isStatic(field.getModifiers())) {
+    		shouldFollow = false;
+    		/* don't blaber about static fields, too many of them */
+    		return new Pair<Boolean,List<String>>(shouldFollow,reasons);
+    	}
+    	
 		/* Note: Scala compiler puts some important fields as synthetic,
 		 * so don't dare skip them
 		 */
 		if (nestingLevel >= MAX_NESTING) {
     		shouldFollow = false;
-    		reasons.add(String.format("nestingLevel %s exceeds MAX_NESTING %d"));
+    		reasons.add(String.format("nestingLevel %d exceeds MAX_NESTING %d",
+    				nestingLevel,MAX_NESTING));
 		}
 		
     	if (field.getName().equals("serialVersionUID")) {
@@ -179,10 +188,7 @@ public class NodeBuilder  {
     		reasons.add("field named serialPersistentFields");
     	}
     	
-    	if (Modifier.isStatic(field.getModifiers())) {
-    		shouldFollow = false;
-    		reasons.add("field is static");
-    	}
+
 
 		// Do not follow scala.collection.parallel.*TaskSupport else we
 		// get into a big tangle that GraphViz chokes on
@@ -196,6 +202,11 @@ public class NodeBuilder  {
 			shouldFollow = false;
 			reasons.add("Parent object is a java.lang.Class");
 		}	
+		
+    	if (field.getName().equals("_meta")) {
+    		shouldFollow = false;
+    		reasons.add("field named _meta");
+    	}
 		return new Pair<Boolean,List<String>>(shouldFollow,reasons);
 	}
 
