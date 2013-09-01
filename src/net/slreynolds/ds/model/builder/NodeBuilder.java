@@ -91,7 +91,9 @@ public class NodeBuilder  {
 				// Do not follow scala.collection.parallel.*TaskSupport else we
 				// get into a big tangle that GraphViz chokes on
 				final boolean isTaskSupportInstance = clazz.getName().endsWith("TaskSupport");
-				final boolean shouldFollowReferences = !isTaskSupportInstance;
+				// Also do not follow Class (because it is complicated and not interesting in this context)
+				final boolean isClassInstance = clazz.getName().equals("java.lang.Class");
+				final boolean shouldFollowReferences = !isTaskSupportInstance && !isClassInstance;
 				while (clazz != null && classNameToPackage(clazz.getName()).equals(packageNameOfInstance)) {
 					Field[] fields = clazz.getDeclaredFields();
 
@@ -134,6 +136,14 @@ public class NodeBuilder  {
 								}
 								else {
 									reason = "Parent object instance of a TaskSupport";
+								}
+							}
+							if (isClassInstance) {
+								if (reason.length() > 0) {
+									reason = String.format("%s and parent object instance of a Class", reason);
+								}
+								else {
+									reason = "Parent object instance of a Class";
 								}
 							}
 							System.out.printf("Not following field %s:%s because %s.\n",
