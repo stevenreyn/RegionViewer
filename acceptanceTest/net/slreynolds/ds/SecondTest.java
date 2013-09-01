@@ -51,10 +51,9 @@ public class SecondTest extends AbstractJavaTest {
         		   new String[]{"brother","the"},"strings");
         
         /* --- alist --- */
-        ArrayList<Bar> alist = new ArrayList<Bar>(3);
+        ArrayList<Bar> alist = new ArrayList<Bar>(2);
         alist.add(new Bar(1));
         alist.add(new Bar(2));
-        alist.add(new Bar(3));
         saveToFiles(alist, "alist");
         
         
@@ -62,7 +61,6 @@ public class SecondTest extends AbstractJavaTest {
         LinkedList<Bar> llist = new LinkedList<Bar>();
         llist.add(new Bar(1));
         llist.add(new Bar(2));
-        llist.add(new Bar(3));
         saveToFiles(llist, "llist");
         
         
@@ -70,14 +68,12 @@ public class SecondTest extends AbstractJavaTest {
         HashMap<Foo,Bar> hmap = new HashMap<Foo,Bar>();
         hmap.put(new Foo(1), new Bar(1));
         hmap.put(new Foo(2), new Bar(2));
-        hmap.put(new Foo(3), new Bar(3));
         saveToFiles(hmap, "hmap");
         
         /* --- tmap --- */
         TreeMap<Foo,Bar> tmap = new TreeMap<Foo,Bar>();
         tmap.put(new Foo(1), new Bar(1));
         tmap.put(new Foo(2), new Bar(2));
-        tmap.put(new Foo(3), new Bar(3));
         saveToFiles(tmap, "tmap");
         
  
