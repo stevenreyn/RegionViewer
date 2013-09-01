@@ -103,6 +103,7 @@ public class NodeBuilder  {
 						field.setAccessible(true);
 						
 						final String fieldName = field.getName();
+						final String simpleFieldName = simplifyFieldName(fieldName);
 						Object fieldValue = null;
 						try {
 							fieldValue = field.get(o);
@@ -132,10 +133,10 @@ public class NodeBuilder  {
 						}
 						
 						if (shouldInlineField(o,field,options)) {
-							node.putAttr(fieldName,fieldValue);
+							node.putAttr(simpleFieldName,fieldValue);
 						}
 						else {
-							enqueueNode(context, nestingLevel, node, fieldName, fieldValue);
+							enqueueNode(context, nestingLevel, node, simpleFieldName, fieldValue);
 						}
 						
 					}
@@ -157,6 +158,21 @@ public class NodeBuilder  {
 			t.printStackTrace();
 			throw new RuntimeException(t);
 		}
+	}
+	
+	private static String simplifyFieldName(String fname) {
+		/*
+		 *  Simplify field names like
+		 *  "scala$collection$immutable$$color$color$$hd"
+		 *  down to just
+		 *  "hd"
+		 */
+		int lastDollar = fname.lastIndexOf('$');
+		if (lastDollar < 0 || lastDollar == fname.length()) {
+			return fname;
+		}
+		/* trash everything up to our last dollar */
+		return fname.substring(lastDollar+1,fname.length());
 	}
 	
 	// TODO the logic embodied in shouldFollowField should be injectable by users
