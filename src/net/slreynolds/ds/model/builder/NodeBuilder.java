@@ -134,8 +134,9 @@ public class NodeBuilder  {
 						if (shouldInlineField(o,field,options)) {
 							node.putAttr(fieldName,fieldValue);
 						}
-						
-						enqueueNode(context, nestingLevel, node, fieldName, fieldValue);
+						else {
+							enqueueNode(context, nestingLevel, node, fieldName, fieldValue);
+						}
 						
 					}
 					clazz = clazz.getSuperclass();
