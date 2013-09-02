@@ -74,10 +74,11 @@ public class NodeBuilder  {
 						// this message is really ambiguous!
 						String reason = "";
 						if (nestingLevel >= MAX_NESTING) {
-							reason = String.format("nestingLevel %s exceeds MAX_NESTING %d");
+							reason = String.format("nestingLevel %d exceeds MAX_NESTING %d",nestingLevel,
+									MAX_NESTING);
 						}
-						System.out.printf("Not following array %s:%s because %s.\n",
-								o.getClass(),reason);
+						System.out.printf("Not following array %s because %s.\n",
+								classname,reason);
 					}
 				}
 				if (showSystemHash)
