@@ -206,8 +206,6 @@ public class NodeBuilder  {
     		reasons.add("field named serialPersistentFields");
     	}
     	
-
-
 		// Do not follow scala.collection.parallel.*TaskSupport else we
 		// get into a big tangle that GraphViz chokes on
 		if (o.getClass().getName().endsWith("TaskSupport")) {
@@ -220,6 +218,16 @@ public class NodeBuilder  {
 			shouldFollow = false;
 			reasons.add("Parent object is a java.lang.Class");
 		}	
+		
+		if (o.getClass().getName().startsWith("java.util.concurrent.ThreadPoolExecutor")) {
+			shouldFollow = false;
+			reasons.add("Parent object is a java.util.concurrent.ThreadPoolExecutor");
+		}
+		
+		if (o.getClass().getName().endsWith("Thread")) {
+			shouldFollow = false;
+			reasons.add("Parent object is a Thread");
+		}
 		
     	if (field.getName().equals("_meta")) {
     		shouldFollow = false;
