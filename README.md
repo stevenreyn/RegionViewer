@@ -11,7 +11,7 @@ RegionViewer uses some heuristics to decide what details to show and which to
 suppress. It is smart enough to detect and avoid loops. An example output
 looks like the following.
 
-![Example export of two Java Strings] (images/strings.dot.svg)
+[Example export of two Java Strings] (images/strings.dot.svg)
 
 This above example shows the export from two Java Strings. The Strings were 
 defined like this:
