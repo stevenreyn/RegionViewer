@@ -27,8 +27,24 @@ nodes yellowish. Any object previously visited was not exported a second time.
 
 This example shows Java's immutable String objects exhibiting structural sharing.
 The code used to generate this graph is in the RegionViewer project in the file
-acceptanceTest/net/slreynolds/ds/SecondTest.java. You can examine this Java file
-for simple examples that show you how to use the RegionViewer.
+acceptanceTest/net/slreynolds/ds/SimplestExample.java. You can read and run this Java file
+to see how to use the RegionViewer. Here is the
+essential part of that code:
+
+
+        String brother = "brother";
+        String the = brother.substring(3, 6);
+
+	    HashMap<String,Object> options = new HashMap<String,Object>();
+	    options.put(ExporterOptions.OUTPUT_PATH, "simplest_strings.dot");
+	    
+	    ObjectSaver gvizSaver = new ObjectSaver(new GraphVizExporter());
+	    gvizSaver.save(new Object[]{brother,the},
+	    		       new String[]{"brother","the"}, 
+	    		       options);
+
+        System.out.printf("All done. Convert to SVG using GraphViz command \"dot -O -Tsvg simplest_strings.dot\".\n");
+
 
 Some other examples are the following.
 
