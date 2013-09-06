@@ -20,8 +20,8 @@ public class FileUtil {
             }
         }
         // invariant: file does not exist 
-        File parent = new File(out.getParent());
-        if (!parent.exists()) {
+        File parent = out.getParentFile();
+        if (parent != null && !parent.exists()) {
             parent.mkdirs();
         }
         
