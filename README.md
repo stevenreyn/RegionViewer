@@ -17,8 +17,8 @@ looks like the following.
 This above example shows the export from two Java Strings. The Strings were 
 defined like this:
 
-    String brother = "brother";
-    String the = brother.substring(3, 6);
+        String brother = "brother";
+        String the = brother.substring(3, 6);
     
 The RegionViewer was given the two object references, brother and the. It first
 followed all the objects reachable from brother and colored those nodes
@@ -35,11 +35,11 @@ essential part of that code:
         String brother = "brother";
         String the = brother.substring(3, 6);
 
-	    HashMap<String,Object> options = new HashMap<String,Object>();
-	    options.put(ExporterOptions.OUTPUT_PATH, "simplest_strings.dot");
+	HashMap<String,Object> options = new HashMap<String,Object>();
+	options.put(ExporterOptions.OUTPUT_PATH, "simplest_strings.dot");
 	    
-	    ObjectSaver gvizSaver = new ObjectSaver(new GraphVizExporter());
-	    gvizSaver.save(new Object[]{brother,the},
+	ObjectSaver gvizSaver = new ObjectSaver(new GraphVizExporter());
+	gvizSaver.save(new Object[]{brother,the},
 	    		       new String[]{"brother","the"}, 
 	    		       options);
 
