@@ -6,10 +6,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Map;
 
-import net.slreynolds.ds.model.Named;
-import net.slreynolds.ds.model.NodeArray;
-
-
 /**
  * (simpler)Export graph to  GraphViz file format. Compared to GraphVizExporter,
  * suppresses internal fields for objects. See
