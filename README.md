@@ -21,8 +21,13 @@ defined like this:
         String brother = "brother";
         String the = brother.substring(3, 6);
     
-The RegionViewer was given the two object references, brother and the. It first
-followed all the objects reachable from brother and colored those nodes
+
+The RegionViewer was given two object references, brother and the. 
+The two rectangles at the top of the graph that are labeled "brother" and "the"
+(do not have a border) are the object references passed into the RegionViewer
+code.
+
+The RegionViewer first followed all the objects reachable from brother and colored those nodes
 red-orange, and then followed the objects reachable from the and colored those
 nodes yellow-green. Any object previously visited was not exported a second time.
 
