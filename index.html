@@ -70,6 +70,24 @@ essential part of that code:</p>
 
 <p>Some other interesting examples are in SecondTest.java from the same directory. </p>
 
+<h2>Changing Export Colors</h2>
+
+<p>The default colors used by the exporter may not appeal to you. You can easily 
+change them, see the example acceptanceTest/net/slreynolds/ds/CustomColorsExample.java.
+The important lines of code are the following:</p>
+<pre>
+	GraphVizExporter exporter = new GraphVizExporter();
+	List<Color> colors = new ArrayList<Color>();
+	colors.add(Color.GRAY);
+	colors.add(Color.LIGHT_GRAY);
+	exporter.setColors(colors);
+	ObjectSaver gvizSaver = new ObjectSaver(exporter);
+</pre>	
+<p>You must ensure that the number of colors given to the exporter matches or exceeds
+the number of object references given to the saver.</p>
+
+<img alt="Example showing custom export colors" src="images/custcolors_strings.dot.svg"/>
+
 <h2>More Examples</h2>
 <p>
 Some other examples are the following.</p>
