@@ -48,9 +48,9 @@ to see how to use the RegionViewer. Here is the essential part of that code:
 	    		       new String[]{"brother","the"}, 
 	    		       options);
 
-        System.out.printf("All done. Convert to SVG using GraphViz command \"dot -O -Tsvg simplest_strings.dot\".\n");
-
-Some other interesting examples are in SecondTest.java from the same directory. 
+To convert the resulting output dot file to SVG, use the GraphViz command 
+`dot -O -Tsvg simplest_strings.dot`. Some other interesting
+examples are in SecondTest.java from the same directory.       
 
 ## Changing Export Colors ##
 
