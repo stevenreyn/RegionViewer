@@ -4,7 +4,7 @@
 <head>
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
  <title>RegionViewer</title>
-
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
@@ -31,8 +31,8 @@ This above example shows the export from two Java Strings. The Strings were
 defined like this:</p>
 
 <pre>
-        String brother = "brother";
-        String the = brother.substring(3, 6);
+String brother = "brother";
+String the = brother.substring(3, 6);
 </pre>
     
 <p>
@@ -54,21 +54,21 @@ to see how to use the RegionViewer. Here is the
 essential part of that code:</p>
 
 <pre>
-        String brother = "brother";
-        String the = brother.substring(3, 6);
+String brother = "brother";
+String the = brother.substring(3, 6);
 
-	HashMap<String,Object> options = new HashMap<String,Object>();
-	options.put(ExporterOptions.OUTPUT_PATH, "simplest_strings.dot");
-	    
-	ObjectSaver gvizSaver = new ObjectSaver(new GraphVizExporter());
-	gvizSaver.save(new Object[]{brother,the},
-	    		       new String[]{"brother","the"}, 
-	    		       options);
-
-        System.out.printf("All done. Convert to SVG using GraphViz command \"dot -O -Tsvg simplest_strings.dot\".\n");
+HashMap<String,Object> options = new HashMap<String,Object>();
+options.put(ExporterOptions.OUTPUT_PATH, "simplest_strings.dot");
+    
+ObjectSaver gvizSaver = new ObjectSaver(new GraphVizExporter());
+gvizSaver.save(new Object[]{brother,the},
+		       new String[]{"brother","the"}, 
+		       options);
 </pre>
 
-<p>Some other interesting examples are in SecondTest.java from the same directory. </p>
+<p>To convert the resulting output dot file to SVG, use the GraphViz command 
+<code>dot -O -Tsvg simplest_strings.dot</code>. Some other interesting
+examples are in SecondTest.java from the same directory. </p>
 
 <h2>Changing Export Colors</h2>
 
@@ -76,12 +76,12 @@ essential part of that code:</p>
 change them, see the example acceptanceTest/net/slreynolds/ds/CustomColorsExample.java.
 The important lines of code are the following:</p>
 <pre>
-	GraphVizExporter exporter = new GraphVizExporter();
-	List<Color> colors = new ArrayList<Color>();
-	colors.add(Color.GRAY);
-	colors.add(Color.LIGHT_GRAY);
-	exporter.setColors(colors);
-	ObjectSaver gvizSaver = new ObjectSaver(exporter);
+GraphVizExporter exporter = new GraphVizExporter();
+List<Color> colors = new ArrayList<Color>();
+colors.add(Color.GRAY);
+colors.add(Color.LIGHT_GRAY);
+exporter.setColors(colors);
+ObjectSaver gvizSaver = new ObjectSaver(exporter);
 </pre>	
 <p>You must ensure that the number of colors given to the exporter matches or exceeds
 the number of object references given to the saver.</p>
