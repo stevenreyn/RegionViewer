@@ -52,6 +52,24 @@ to see how to use the RegionViewer. Here is the essential part of that code:
 
 Some other interesting examples are in SecondTest.java from the same directory. 
 
+## Changing Export Colors ##
+
+The default colors used by the exporter may not appeal to you. You can easily 
+change them, see the example acceptanceTest/net/slreynolds/ds/CustomColorsExample.java.
+The important lines of code are the following:
+
+	GraphVizExporter exporter = new GraphVizExporter();
+	List<Color> colors = new ArrayList<Color>();
+	colors.add(Color.GRAY);
+	colors.add(Color.LIGHT_GRAY);
+	exporter.setColors(colors);
+	ObjectSaver gvizSaver = new ObjectSaver(exporter);
+	
+You must ensure that the number of colors given to the exporter matches or exceeds
+the number of object references given to the saver.
+
+![Example showing custom export colors] (images/custcolors_strings.dot.svg)
+
 ## More Examples ##
 
 Some other examples are the following.
