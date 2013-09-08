@@ -57,7 +57,7 @@ essential part of that code:</p>
 String brother = "brother";
 String the = brother.substring(3, 6);
 
-HashMap<String,Object> options = new HashMap<String,Object>();
+HashMap&lt;String,Object&gt; options = new HashMap&lt;String,Object&gt;();
 options.put(ExporterOptions.OUTPUT_PATH, "simplest_strings.dot");
     
 ObjectSaver gvizSaver = new ObjectSaver(new GraphVizExporter());
@@ -77,7 +77,7 @@ change them, see the example acceptanceTest/net/slreynolds/ds/CustomColorsExampl
 The important lines of code are the following:</p>
 <pre>
 GraphVizExporter exporter = new GraphVizExporter();
-List<Color> colors = new ArrayList<Color>();
+List&lt;Color&gt; colors = new ArrayList&lt;Color&gt;();
 colors.add(Color.GRAY);
 colors.add(Color.LIGHT_GRAY);
 exporter.setColors(colors);
