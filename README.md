@@ -99,6 +99,11 @@ This works very well, but can only save to bitmap images. The GraphMLExporter
 saves to [graphml](http://graphml.graphdrawing.org/). This works but does not preserve 
 node colors and so is less useful.
 
+## Building RegionViewer ##
+
+RegionViewer has a [gradle](http://www.gradle.org/) build file, and can be built with the command in the
+root project directory `gradle build`. The jar file is created in build/libs/RegionViewer.jar.
+
 ## More Examples ##
 
 Some other examples are the following.
