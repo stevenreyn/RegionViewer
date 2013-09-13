@@ -51,6 +51,25 @@ ObjectSaver gvizSaver = new ObjectSaver(exporter);</code></pre>
 <div class="figure">
 <img src="images/custcolors_strings.dot.svg" alt="Example showing custom export colors" /><p class="caption">Example showing custom export colors</p>
 </div>
+<h2 id="using-a-different-exporter">Using a Different Exporter</h2>
+<p>RegionViewer can export to other graph file types. You just specify the exporter you want to use when you construct the saver. The code from the SimplerGraphVizExporterExample.java looks like this</p>
+<pre><code>ObjectSaver gvizSaver = new ObjectSaver(new SimpleGraphVizExporter());</code></pre>
+<p>The output from this example looks like the following.</p>
+<div class="figure">
+<img src="images/alist2_simple.dot.svg" alt="ArrayList example using SimpleGraphVisExporter" /><p class="caption">ArrayList example using SimpleGraphVisExporter</p>
+</div>
+<p>The same example using the standard GraphVizExporter looks like the following.</p>
+<div class="figure">
+<img src="images/alist2.dot.svg" alt="ArrayList example using GraphVisExporter" /><p class="caption">ArrayList example using GraphVisExporter</p>
+</div>
+<p>The following exporters are curently provided</p>
+<ul>
+<li>GraphVizExporter</li>
+<li>SimplerGraphVizExporter</li>
+<li>TulipExporter</li>
+<li>GraphMLExporter</li>
+</ul>
+<p>The two GraphViz exporters are the easiest and most flexible to use. The TulipExporter is for the <a href="http://tulip.labri.fr/">Tulip</a> data visualization application. This works very well, but can only save to bitmap images. The GraphMLExporter saves to <a href="http://graphml.graphdrawing.org/">graphml</a>. This works but does not preserve node colors and so is less useful.</p>
 <h2 id="more-examples">More Examples</h2>
 <p>Some other examples are the following.</p>
 <div class="figure">
