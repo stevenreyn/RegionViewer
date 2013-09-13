@@ -70,6 +70,8 @@ ObjectSaver gvizSaver = new ObjectSaver(exporter);</code></pre>
 <li>GraphMLExporter</li>
 </ul>
 <p>The two GraphViz exporters are the easiest and most flexible to use. The TulipExporter is for the <a href="http://tulip.labri.fr/">Tulip</a> data visualization application. This works very well, but can only save to bitmap images. The GraphMLExporter saves to <a href="http://graphml.graphdrawing.org/">graphml</a>. This works but does not preserve node colors and so is less useful.</p>
+<h2 id="building-regionviewer">Building RegionViewer</h2>
+<p>RegionViewer has a <a href="http://www.gradle.org/">gradle</a> build file, and can be built with the command (in the root project directory) <code>gradle build</code>. The jar file is created at build/libs/RegionViewer.jar.</p>
 <h2 id="more-examples">More Examples</h2>
 <p>Some other examples are the following.</p>
 <div class="figure">
