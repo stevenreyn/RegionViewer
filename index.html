@@ -15,153 +15,75 @@
 </style>
 </head>
 <body id="page">
-
-<h1>RegionViewer</h1>
-
-<h2>Introduction</h2>
-<p>
-<a href="http://github.com/stevenreyn/RegionViewer">RegionViewer</a> allows you 
-to export a region (graph of objects on a JVM) to several different 
-types of graph files. The most useful type of output graph file is 
-<a href="http://www.graphviz.org/">GraphViz format</a>. These files have a
-.dot extension.  Using GraphViz tools, you can easily convert the dot file to many different formats, 
-such as SVG.</p>
-
-<p>
-RegionViewer uses some heuristics to decide what details to show and which to
-suppress. It is smart enough to detect and avoid loops. An example output
-looks like the following.</p>
-
-<img alt="Example export of two Java Strings" src="images/strings.dot.svg" />
-
-<p>
-This above example shows the export from two Java Strings. The Strings were 
-defined like this:</p>
-
-<pre>
-String brother = "brother";
-String the = brother.substring(3, 6);
-</pre>
-    
-<p>
-The RegionViewer was given two object references, brother and the. 
-The two rectangles at the top of the graph that are labeled "brother" and "the"
-(do not have a border) are the object references passed into the RegionViewer
-code.<p>
-
-<p>
-The RegionViewer first followed all the objects reachable from brother and colored those nodes
-red-orange, and then followed the objects reachable from the and colored those
-nodes yellow-green. Any object previously visited was not exported a second time.</p>
-
-<p>
-This example shows Java's immutable String objects exhibiting structural sharing.
-The code used to generate this graph is in the RegionViewer project in the file
-acceptanceTest/net/slreynolds/ds/SimplestExample.java. You can read and run this Java file
-to see how to use the RegionViewer. Here is the
-essential part of that code:</p>
-
-<pre>
-String brother = "brother";
+<h1 id="regionviewer">RegionViewer</h1>
+<h2 id="introduction">Introduction</h2>
+<p><a href="http://github.com/stevenreyn/RegionViewer">RegionViewer</a> allows you to export a region (graph of objects on a JVM) to several different types of graph files. The most useful type of output graph file is <a href="http://www.graphviz.org/">GraphViz format</a>. These files have a .dot extension. Using GraphViz tools, you can easily convert the dot file to many different formats, such as SVG.</p>
+<p>RegionViewer uses some heuristics to decide what details to show and which to suppress. It is smart enough to detect and avoid loops. An example output looks like the following.</p>
+<div class="figure">
+<img src="images/strings.dot.svg" alt="Example export of two Java Strings" /><p class="caption">Example export of two Java Strings</p>
+</div>
+<p>This above example shows the export from two Java Strings. The Strings were defined like this:</p>
+<pre><code>String brother = &quot;brother&quot;;
+String the = brother.substring(3, 6);</code></pre>
+<p>The RegionViewer was given two object references, brother and the. The two rectangles at the top of the graph that are labeled &quot;brother&quot; and &quot;the&quot; (do not have a border) are the object references passed into the RegionViewer code.</p>
+<p>The RegionViewer first followed all the objects reachable from brother and colored those nodes red-orange, and then followed the objects reachable from the and colored those nodes yellow-green. Any object previously visited was not exported a second time.</p>
+<p>This example shows Java's immutable String objects exhibiting structural sharing. The code used to generate this graph is in the RegionViewer project in the file acceptanceTest/net/slreynolds/ds/SimplestExample.java. You can read and run this Java file to see how to use the RegionViewer. Here is the essential part of that code:</p>
+<pre><code>String brother = &quot;brother&quot;;
 String the = brother.substring(3, 6);
 
 HashMap&lt;String,Object&gt; options = new HashMap&lt;String,Object&gt;();
-options.put(ExporterOptions.OUTPUT_PATH, "simplest_strings.dot");
-    
+options.put(ExporterOptions.OUTPUT_PATH, &quot;simplest_strings.dot&quot;);
+
 ObjectSaver gvizSaver = new ObjectSaver(new GraphVizExporter());
 gvizSaver.save(new Object[]{brother,the},
-		       new String[]{"brother","the"}, 
-		       options);
-</pre>
-
-<p>To convert the resulting output dot file to SVG, use the GraphViz command 
-<code>dot -O -Tsvg simplest_strings.dot</code>. Some other interesting
-examples are in SecondTest.java from the same directory. </p>
-
-<h2>Changing Export Colors</h2>
-
-<p>The default colors used by the exporter may not appeal to you. You can easily 
-change them, see the example acceptanceTest/net/slreynolds/ds/CustomColorsExample.java.
-The important lines of code are the following:</p>
-<pre>
-GraphVizExporter exporter = new GraphVizExporter();
+                   new String[]{&quot;brother&quot;,&quot;the&quot;}, 
+                   options);</code></pre>
+<p>To convert the resulting output dot file to SVG, use the GraphViz command <code>dot -O -Tsvg simplest_strings.dot</code>. Some other interesting examples are in SecondTest.java from the same directory.</p>
+<h2 id="changing-export-colors">Changing Export Colors</h2>
+<p>The default colors used by the exporter may not appeal to you. You can easily change them, see the example acceptanceTest/net/slreynolds/ds/CustomColorsExample.java. The important lines of code are the following:</p>
+<pre><code>GraphVizExporter exporter = new GraphVizExporter();
 List&lt;Color&gt; colors = new ArrayList&lt;Color&gt;();
 colors.add(Color.GRAY);
 colors.add(Color.LIGHT_GRAY);
 exporter.setColors(colors);
-ObjectSaver gvizSaver = new ObjectSaver(exporter);
-</pre>	
-<p>You must ensure that the number of colors given to the exporter matches or exceeds
-the number of object references given to the saver.</p>
-
-<img alt="Example showing custom export colors" src="images/custcolors_strings.dot.svg"/>
-
-<h2>More Examples</h2>
-<p>
-Some other examples are the following.</p>
-
-<img alt="Example export of a Java ArrayList" src="images/alist.dot.svg"/>
-
+ObjectSaver gvizSaver = new ObjectSaver(exporter);</code></pre>
+<p>You must ensure that the number of colors given to the exporter matches or exceeds the number of object references given to the saver.</p>
+<div class="figure">
+<img src="images/custcolors_strings.dot.svg" alt="Example showing custom export colors" /><p class="caption">Example showing custom export colors</p>
+</div>
+<h2 id="more-examples">More Examples</h2>
+<p>Some other examples are the following.</p>
+<div class="figure">
+<img src="images/alist.dot.svg" alt="Export of a Java ArrayList" /><p class="caption">Export of a Java ArrayList</p>
+</div>
 <p>This above example shows the export from a Java ArrayList that contains two objects.</p>
-
-<img alt="Example export of a Java LinkedList" src="images/llist.dot.svg"/>
-
+<div class="figure">
+<img src="images/llist.dot.svg" alt="Export of a Java LinkedList" /><p class="caption">Export of a Java LinkedList</p>
+</div>
 <p>This above example shows the export from a Java ArrayList that contains two objects.</p>
-
-<img alt="Example export of a Scala HashMap" src="images/hmap-ops.dot.svg"/>
-
-<p>This above example shows the export from a Scala HashMap and a map derived
-from the original by adding a key/value. These last two Scala examples were generated by 
-code in the 
-<a href="http://github.com/stevenreyn/ScalaRegionExamples">ScalaRegionExamples</a>
-project.</p>
-
-<img alt="Example export of a Scala HashMap" src="images/hmap-ops_simple.dot.svg"/>
-
-<p>This above example shows the same scenario as above but using the simpler GraphViz
-exporter (SimpleGraphVizExporter). This exporter suppresses all primitive fields 
-and therefore only shows objects and their relationships.</p>
-
-<img alt="Example export of a Clojure HashMap" src="images/clj-hash-map-ops.dot.svg"/>
-
-<p>This above example shows the export from a Clojure HashMap and a map derived
-from the original by adding a key/value. This Clojure example was generated by 
-code in the
-<a href="http://github.com/stevenreyn/ClojureRegionExamples">ClojureRegionExamples</a>
-project.</p>
-
-
-<h2>Suppression of Details</h2>
-
-<p>The RegionViewer uses some heuristics to decide which fields should be exported
-and which should be suppressed. Depending on your interests and your use case, 
-the heuristics may not be suitable. These heuristics takes two forms</p>
-
-<ol>
-<li>The NodeBuilder exports fields in the given object instance Class and recurses up
-   the the instances parent classes. This process continues until the parent
-   class is in a different package than the given object instance. Fields from
-   parents in different packages are not exported. </li>
-   
-<li>Some fields and some objects are just not interesting. For example static fields
-   are not exported.  Also objects like Threads are not exported to conserve space. </li>
+<div class="figure">
+<img src="images/hmap-ops.dot.svg" alt="Export of a Scala HashMap" /><p class="caption">Export of a Scala HashMap</p>
+</div>
+<p>This above example shows the export from a Scala HashMap and a map derived from the original by adding a key/value. These last two Scala examples were generated by code in the <a href="http://github.com/stevenreyn/ScalaRegionExamples">ScalaRegionExamples</a> project.</p>
+<div class="figure">
+<img src="images/hmap-ops_simple.dot.svg" alt="Simpler export of a Scala HashMap" /><p class="caption">Simpler export of a Scala HashMap</p>
+</div>
+<p>This above example shows the same scenario as above but using the simpler GraphViz exporter (SimpleGraphVizExporter). This exporter suppresses all primitive fields and therefore only shows objects and their relationships.</p>
+<div class="figure">
+<img src="images/clj-hash-map-ops.dot.svg" alt="Export of a Clojure HashMap" /><p class="caption">Export of a Clojure HashMap</p>
+</div>
+<p>This above example shows the export from a Clojure HashMap and a map derived from the original by adding a key/value. This Clojure example was generated by code in the <a href="http://github.com/stevenreyn/ClojureRegionExamples">ClojureRegionExamples</a> project.</p>
+<h2 id="suppression-of-details">Suppression of Details</h2>
+<p>The RegionViewer uses some heuristics to decide which fields should be exported and which should be suppressed. Depending on your interests and your use case, the heuristics may not be suitable. These heuristics takes two forms</p>
+<ol style="list-style-type: decimal">
+<li><p>The NodeBuilder exports fields in the given object instance Class and recurses up the the instances parent classes. This process continues until the parent class is in a different package than the given object instance. Fields from parents in different packages are not exported.</p></li>
+<li><p>Some fields and some objects are just not interesting. For example static fields are not exported. Also objects like Threads are not exported to conserve space.</p></li>
 </ol>
-
-<p>It is anticipated that future versions of RegionView will make these heuristics
-pluggable. At this point, if you need to change them, you will need to change some
-code.</p>
-
-<ol>
-<li>The heuristic that truncates exporting when the parent is in a different
-   package is in the method NodeBuilder.buildNode. Look for the following line 
-<pre>while (clazz != null && classNameToPackage(clazz.getName()).equals(packageNameOfInstance)) {
-</pre>
-</li>
-
-<li>The second heuristic is implemented in the method NodeBuilde.shouldFollowField. If
-   this method returns false, then the field will be skipped. You can easily add
-   or remove conditions from this method.</li>
-</ol>   
+<p>It is anticipated that future versions of RegionView will make these heuristics pluggable. At this point, if you need to change them, you will need to change some code.</p>
+<ol style="list-style-type: decimal">
+<li><p>The heuristic that truncates exporting when the parent is in a different package is in the method NodeBuilder.buildNode. Look for the following line<br /><code>while (clazz != null &amp;&amp; classNameToPackage(clazz.getName()).equals(packageNameOfInstance)) {</code></p></li>
+<li><p>The second heuristic is implemented in the method NodeBuilde.shouldFollowField. If this method returns false, then the field will be skipped. You can easily add or remove conditions from this method.</p></li>
+</ol>
 
 </body>
 </html>
