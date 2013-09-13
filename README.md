@@ -70,6 +70,35 @@ the number of object references given to the saver.
 
 ![Example showing custom export colors](images/custcolors_strings.dot.svg)
 
+## Using a Different Exporter ##
+
+RegionViewer can export to other graph file types. You just specify the exporter
+you want to use when you construct the saver. The code from the SimplerGraphVizExporterExample.java
+looks like this
+
+    ObjectSaver gvizSaver = new ObjectSaver(new SimpleGraphVizExporter());
+    
+The output from this example looks like the following.
+
+![ArrayList example using SimpleGraphVisExporter](images/alist2_simple.dot.svg)
+
+The same example using the standard GraphVizExporter looks like the following.
+
+![ArrayList example using GraphVisExporter](images/alist2.dot.svg)
+
+The following exporters are curently provided
+
+* GraphVizExporter
+* SimplerGraphVizExporter
+* TulipExporter
+* GraphMLExporter
+
+The two GraphViz exporters are the easiest and most flexible to use. The TulipExporter
+is for the [Tulip](http://tulip.labri.fr/) data visualization application. 
+This works very well, but can only save to bitmap images. The GraphMLExporter
+saves to [graphml](http://graphml.graphdrawing.org/). This works but does not preserve 
+node colors and so is less useful.
+
 ## More Examples ##
 
 Some other examples are the following.
