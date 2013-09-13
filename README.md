@@ -101,8 +101,8 @@ node colors and so is less useful.
 
 ## Building RegionViewer ##
 
-RegionViewer has a [gradle](http://www.gradle.org/) build file, and can be built with the command in the
-root project directory `gradle build`. The jar file is created in build/libs/RegionViewer.jar.
+RegionViewer has a [gradle](http://www.gradle.org/) build file, and can be built with the command (in the
+root project directory) `gradle build`. The jar file is created at build/libs/RegionViewer.jar.
 
 ## More Examples ##
 
