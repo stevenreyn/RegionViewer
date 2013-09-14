@@ -113,7 +113,7 @@ public class TestModel {
 		public void setO(Object o) { _o = o; }
 	}
 	
-	@Test
+	@Test(timeout=500)
 	public void testObjectCycle() {
 		D d1 = new D();
 		D d2 = new D();
