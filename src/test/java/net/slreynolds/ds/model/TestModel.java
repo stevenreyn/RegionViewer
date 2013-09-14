@@ -40,16 +40,21 @@ public class TestModel {
 		private double two;
 		private char three;
 		private float four;
-		public DummyClass(int one, double two, char three, float four) {
+		private byte five;
+		private boolean six;
+		public DummyClass(int one, double two, char three, float four,
+				byte five, boolean six) {
 			this.one = one;
 			this.two = two;
 			this.three = three;
 			this.four = four;
+			this.five = five;
+			this.six = six;
 		}
 	}
 	
 	@Test
-	public void testABCScenario() {
+	public void testObjectReferences() {
 		C c = new C(2);
 		B b = new B(c);
 		A a = new A(b);
@@ -77,7 +82,7 @@ public class TestModel {
 	
 	@Test
 	public void testFields() {
-		DummyClass dummy = new DummyClass(1,2.0,'c',4.0f);
+		DummyClass dummy = new DummyClass(1,2.0,'c',4.0f,(byte)5,true);
 		ExporterStub exporter = new ExporterStub();
 		ObjectSaver saver = new ObjectSaver(exporter);
 		saver.save(new Object[]{dummy},new String[]{"um"},new HashMap<String,Object>());
@@ -96,5 +101,7 @@ public class TestModel {
 		assertEquals("dummy.two",2.0,gp_dummy.getAttr("two"));
 		assertEquals("dummy.three",'c',gp_dummy.getAttr("three"));
 		assertEquals("dummy.four",4.0f,gp_dummy.getAttr("four"));
+		assertEquals("dummy.five",(byte)5,gp_dummy.getAttr("five"));
+		assertEquals("dummy.six",true,gp_dummy.getAttr("six"));
 	}
 }
