@@ -35,24 +35,6 @@ public class TestModel {
 		}
 	}
 	
-	public static class DummyClass {
-		private int one;
-		private double two;
-		private char three;
-		private float four;
-		private byte five;
-		private boolean six;
-		public DummyClass(int one, double two, char three, float four,
-				byte five, boolean six) {
-			this.one = one;
-			this.two = two;
-			this.three = three;
-			this.four = four;
-			this.five = five;
-			this.six = six;
-		}
-	}
-	
 	@Test
 	public void testObjectReferences() {
 		C c = new C(2);
@@ -80,6 +62,24 @@ public class TestModel {
 		
 	}
 	
+	public static class DummyClass {
+		private int one;
+		private double two;
+		private char three;
+		private float four;
+		private byte five;
+		private boolean six;
+		public DummyClass(int one, double two, char three, float four,
+				byte five, boolean six) {
+			this.one = one;
+			this.two = two;
+			this.three = three;
+			this.four = four;
+			this.five = five;
+			this.six = six;
+		}
+	}
+	
 	@Test
 	public void testFields() {
 		DummyClass dummy = new DummyClass(1,2.0,'c',4.0f,(byte)5,true);
@@ -103,5 +103,28 @@ public class TestModel {
 		assertEquals("dummy.four",4.0f,gp_dummy.getAttr("four"));
 		assertEquals("dummy.five",(byte)5,gp_dummy.getAttr("five"));
 		assertEquals("dummy.six",true,gp_dummy.getAttr("six"));
+	}
+	
+	public static class D {
+		private Object _o;
+		public D() {
+			_o = null;
+		}
+		public void setO(Object o) { _o = o; }
+	}
+	
+	@Test
+	public void testObjectCycle() {
+		D d1 = new D();
+		D d2 = new D();
+		D d3 = new D();
+		d1.setO(d2);
+		d2.setO(d3);
+		d3.setO(d1);
+		ExporterStub exporter = new ExporterStub();
+		ObjectSaver saver = new ObjectSaver(exporter);
+		saver.save(new Object[]{d1},new String[]{"d1"},new HashMap<String,Object>());
+		Graph g = exporter.getGraph();
+		assertEquals("num graph points",4,g.getGraphPoints().size());
 	}
 }
