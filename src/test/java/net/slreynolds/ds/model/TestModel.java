@@ -35,14 +35,16 @@ public class TestModel {
 		}
 	}
 	
-	public static class UmClass {
+	public static class DummyClass {
 		private int one;
 		private double two;
 		private char three;
-		public UmClass(int one, double two, char three) {
+		private float four;
+		public DummyClass(int one, double two, char three, float four) {
 			this.one = one;
 			this.two = two;
 			this.three = three;
+			this.four = four;
 		}
 	}
 	
@@ -75,10 +77,10 @@ public class TestModel {
 	
 	@Test
 	public void testFields() {
-		UmClass um = new UmClass(1,2.0,'c');
+		DummyClass dummy = new DummyClass(1,2.0,'c',4.0f);
 		ExporterStub exporter = new ExporterStub();
 		ObjectSaver saver = new ObjectSaver(exporter);
-		saver.save(new Object[]{um},new String[]{"um"},new HashMap<String,Object>());
+		saver.save(new Object[]{dummy},new String[]{"um"},new HashMap<String,Object>());
 		Graph g = exporter.getGraph();
 		
         assertEquals("num graph points",2,g.getGraphPoints().size());
@@ -88,10 +90,11 @@ public class TestModel {
 		assertTrue("primary point isa symbol",(Boolean)gp.getAttr(Named.SYMBOL));
 		assertEquals("primary has one link",1,gp.getNeighbors().size());
 		
-		GraphPoint gp_um = gp.getNeighbors().get(0).getTo();
-		assertEquals("um has no links",0,gp_um.getNeighbors().size());
-		assertEquals("um.one",1,gp_um.getAttr("one"));
-		assertEquals("um.two",2.0,gp_um.getAttr("two"));
-		assertEquals("um.three",'c',gp_um.getAttr("three"));
+		GraphPoint gp_dummy = gp.getNeighbors().get(0).getTo();
+		assertEquals("dummy has no links",0,gp_dummy.getNeighbors().size());
+		assertEquals("dummy.one",1,gp_dummy.getAttr("one"));
+		assertEquals("dummy.two",2.0,gp_dummy.getAttr("two"));
+		assertEquals("dummy.three",'c',gp_dummy.getAttr("three"));
+		assertEquals("dummy.four",4.0f,gp_dummy.getAttr("four"));
 	}
 }
