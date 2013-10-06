@@ -9,12 +9,19 @@ import org.junit.Test;
 public class ReflectionUtilTest {
 
 	public static class DummyClass {
+		@SuppressWarnings("unused")
 		private int one;
+		@SuppressWarnings("unused")
 		private double two;
+		@SuppressWarnings("unused")
 		private char three;
+		@SuppressWarnings("unused")
 		private float four;
+		@SuppressWarnings("unused")
 		private byte five;
+		@SuppressWarnings("unused")
 		private boolean six;
+		@SuppressWarnings("unused")
 		private Object obj;
 		public DummyClass(int one, double two, char three, float four,
 				byte five, boolean six) {
