@@ -38,7 +38,7 @@ public class Pair<S,T> {
 		if (!(obj instanceof Pair)) {
 			return false;
 		}
-		Pair other = (Pair) obj;
+		Pair<?,?> other = (Pair<?,?>) obj;
 		if (one == null) {
 			if (other.one != null) {
 				return false;
