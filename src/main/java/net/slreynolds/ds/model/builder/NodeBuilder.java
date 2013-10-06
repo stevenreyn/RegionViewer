@@ -321,16 +321,6 @@ public class NodeBuilder  {
     	return false;
     }
     
-    private static boolean shouldSkip(Object o,Field field) {
-    	if (field.getName().equals("serialVersionUID"))
-    		return true;
-    	if (field.getName().equals("serialPersistentFields"))
-    		return true;
-    	if (Modifier.isStatic(field.getModifiers()))
-    		return true;
-    	return false;
-    }
-    
     private static String getClassName(Object o) {
     	return o.getClass().getSimpleName(); // TODO fails if inner class
     }
