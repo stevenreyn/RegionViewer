@@ -2,6 +2,7 @@ package net.slreynolds.ds.util;
 
 import static org.junit.Assert.*;
 
+import net.slreynolds.ds.internal.util.ReflectionUtil;
 import net.slreynolds.ds.model.ReflectionException;
 
 import org.junit.Test;

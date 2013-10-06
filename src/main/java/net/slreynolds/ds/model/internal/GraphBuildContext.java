@@ -1,4 +1,4 @@
-package net.slreynolds.ds.model.builder;
+package net.slreynolds.ds.model.internal;
 
 import java.util.HashMap;
 import java.util.IdentityHashMap;

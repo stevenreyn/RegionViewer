@@ -3,10 +3,10 @@ package net.slreynolds.ds.model;
 
 import java.util.Map;
 
-import net.slreynolds.ds.model.builder.EdgeSuspension;
-import net.slreynolds.ds.model.builder.GraphBuildContext;
-import net.slreynolds.ds.model.builder.GraphPointSuspension;
-import net.slreynolds.ds.model.builder.NodeBuilder;
+import net.slreynolds.ds.model.internal.EdgeSuspension;
+import net.slreynolds.ds.model.internal.GraphBuildContext;
+import net.slreynolds.ds.model.internal.GraphPointSuspension;
+import net.slreynolds.ds.model.internal.NodeBuilder;
 
 public class ReflectiveBuilder implements Builder {
 

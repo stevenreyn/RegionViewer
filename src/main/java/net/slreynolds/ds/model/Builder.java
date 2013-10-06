@@ -2,7 +2,7 @@ package net.slreynolds.ds.model;
 
 import java.util.Map;
 
-import net.slreynolds.ds.model.builder.GraphBuildContext;
+import net.slreynolds.ds.model.internal.GraphBuildContext;
 
 public interface Builder {
 

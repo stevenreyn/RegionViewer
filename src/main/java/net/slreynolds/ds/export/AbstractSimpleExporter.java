@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.slreynolds.ds.internal.util.FileUtil;
 import net.slreynolds.ds.model.Edge;
 import net.slreynolds.ds.model.Graph;
 import net.slreynolds.ds.model.GraphPoint;
 import net.slreynolds.ds.model.Named;
 import net.slreynolds.ds.model.Node;
 import net.slreynolds.ds.model.NodeArray;
-import net.slreynolds.ds.util.FileUtil;
 
 /**
  * Base class for the simple file exporters that save the graph

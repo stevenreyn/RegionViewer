@@ -14,7 +14,7 @@ import net.slreynolds.ds.model.Builder;
 import net.slreynolds.ds.model.BuilderOptions;
 import net.slreynolds.ds.model.Graph;
 import net.slreynolds.ds.model.ReflectiveBuilder;
-import net.slreynolds.ds.model.builder.GraphBuildContext;
+import net.slreynolds.ds.model.internal.GraphBuildContext;
 
 
 /**

@@ -1,5 +1,5 @@
 
-package net.slreynolds.ds.model.builder;
+package net.slreynolds.ds.model.internal;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.List;
 
 
+import net.slreynolds.ds.internal.util.NodeUtil;
+import net.slreynolds.ds.internal.util.Pair;
 import net.slreynolds.ds.model.BuildException;
 import net.slreynolds.ds.model.BuilderOptions;
 import net.slreynolds.ds.model.Graph;
@@ -17,8 +19,6 @@ import net.slreynolds.ds.model.Named;
 import net.slreynolds.ds.model.NamedIDGenerator;
 import net.slreynolds.ds.model.Node;
 import net.slreynolds.ds.model.NodeArray;
-import net.slreynolds.ds.util.NodeUtil;
-import net.slreynolds.ds.util.Pair;
 
 /**
  *

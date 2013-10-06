@@ -1,4 +1,4 @@
-package net.slreynolds.ds.model.builder;
+package net.slreynolds.ds.model.internal;
 
 public class EdgeSuspension {
 

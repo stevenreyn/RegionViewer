@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 
+import net.slreynolds.ds.internal.util.FileUtil;
+
 import org.junit.Test;
 
 public class FileUtilTest {
