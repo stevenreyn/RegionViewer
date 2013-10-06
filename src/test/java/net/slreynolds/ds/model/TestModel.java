@@ -15,6 +15,7 @@ import org.junit.Test;
 public class TestModel {
 
 	public static class A {
+		@SuppressWarnings("unused")
 		private final B _b;
 		public A(B b) {
 			_b = b;
@@ -22,6 +23,7 @@ public class TestModel {
 	}
 	
 	public static class B {
+		@SuppressWarnings("unused")
 		private final C _c;
 		public B(C c) {
 			_c = c;
@@ -29,6 +31,7 @@ public class TestModel {
 	}
 	
 	public static class C {
+		@SuppressWarnings("unused")
 		private final int _i;
 		public C(int i) {
 			_i = i;
@@ -63,11 +66,17 @@ public class TestModel {
 	}
 	
 	public static class DummyClass {
+		@SuppressWarnings("unused")
 		private int one;
+		@SuppressWarnings("unused")
 		private double two;
+		@SuppressWarnings("unused")
 		private char three;
+		@SuppressWarnings("unused")
 		private float four;
+		@SuppressWarnings("unused")
 		private byte five;
+		@SuppressWarnings("unused")
 		private boolean six;
 		public DummyClass(int one, double two, char three, float four,
 				byte five, boolean six) {
@@ -106,6 +115,7 @@ public class TestModel {
 	}
 	
 	public static class D {
+		@SuppressWarnings("unused")
 		private Object _o;
 		public D() {
 			_o = null;
