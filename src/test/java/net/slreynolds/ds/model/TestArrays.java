@@ -46,14 +46,15 @@ public class TestArrays {
 		assertTrue("primary point isa symbol",(Boolean)gp.getAttr(Named.SYMBOL));
 		assertEquals("primary has one link",1,gp.getNeighbors().size());
 		
+		String dir = "test_output/";
 		ObjectSaver gvizSaver = new ObjectSaver(new GraphVizExporter());
-		new File("myarray.dot").delete();
-		options.put(ExporterOptions.OUTPUT_PATH, "myarray.dot");
+		new File(dir+"myarray.dot").delete();
+		options.put(ExporterOptions.OUTPUT_PATH, dir+"myarray.dot");
 		gvizSaver.save(new Object[]{myarray},new String[]{"myarray"},options);
 		
 		ObjectSaver simpleGvizSaver = new ObjectSaver(new SimpleGraphVizExporter());
-		new File("myarray_simple.dot").delete();
-		options.put(ExporterOptions.OUTPUT_PATH, "myarray_simple.dot");
+		new File(dir+"myarray_simple.dot").delete();
+		options.put(ExporterOptions.OUTPUT_PATH, dir+"myarray_simple.dot");
 		simpleGvizSaver.save(new Object[]{myarray},new String[]{"myarray"},options);
 	}
 	
