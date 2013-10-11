@@ -10,45 +10,37 @@ import java.util.List;
  */
 final public class NodeArray extends GraphPoint {
 
-    private List<GraphPoint> _elements;
-    private ArrayType _type;
+	private final boolean _inlineValues;
+    private final GraphPoint[] _elements;
     
-    public enum ArrayType { NODE }
-
-    public NodeArray(NamedID ID, String name, ArrayType atype, int length, int generation) {
+    public NodeArray(NamedID ID, String name, int length, int generation, boolean inlineValues) {
         super(ID, name, generation);
         if (length < 0) {
             throw new IllegalArgumentException("length must be non-negative");
         }
-        _elements = new ArrayList<GraphPoint>(length);
-        _type = atype;
-        switch (atype) {
-            case NODE:
-                for (int i = 0; i < length; i++) {
-                    Node p = new Node(NamedIDGenerator.next(),generation);
-                    p.setArrayParent(this);
-                    p.putAttr(Named.ARRAY_INDEX, i);
-                    _elements.add(p);
-                }
-                break;
-            default:
-                throw new IllegalStateException("Didn't implement that array type yet: " + atype);
-        }
-
+        _elements = inlineValues ? new GraphPoint[length] : null;
+        _inlineValues = inlineValues;
     }
 
-    public ArrayType getArrayType() { return _type; }
+    @SuppressWarnings("unchecked")
+	public List<GraphPoint> getElements() {
+        return _inlineValues ? a2l(_elements) : (List<GraphPoint>)Collections.EMPTY_LIST;
+    }
     
-    public List<GraphPoint> getElements() {
-        return Collections.unmodifiableList(_elements);
+    private static <T> List<T> a2l(T[] ta) {
+    	List<T> ts = new ArrayList<T>();
+    	for (T t : ta) {
+    		ts.add(t);
+    	}
+    	return ts;
     }
 
-    public GraphPoint get(int i) {
-        return _elements.get(i);
+    public void set(int i, GraphPoint gp) {
+         _elements[i] = gp;
     }
     
     public int getLength() {
-        return _elements.size();
+        return _inlineValues ? _elements.length : 0;
     }
     
     @Override
@@ -68,12 +60,16 @@ final public class NodeArray extends GraphPoint {
     
     @Override
     public String toString() {
-        return "NodeArray [ # elements=" + _elements.size() + ", " + get(0).toString() + "]";
+    	StringBuilder sb = new StringBuilder("NodeArray [");
+    	if (this.hasAttr(Named.CLASS)) {
+    		sb.append( this.getAttr(Named.CLASS));
+    		sb.append(' ');
+    	}
+        if (_elements != null) {
+        	sb.append("# elements=" + getLength());
+        }
+        sb.append(']');
+        return sb.toString();
     }
-    
-    // -------------- Generated Code ------------------
 
-    // TODO generate hashcode and equals again
-
-    
 }

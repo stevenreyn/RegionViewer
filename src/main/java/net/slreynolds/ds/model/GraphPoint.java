@@ -9,7 +9,8 @@ import java.util.List;
  * A graph element that can be an Edge endpoint.
  */
 abstract public class GraphPoint extends Named {
-    private final List<Edge> _neighbors;
+   
+	private final List<Edge> _neighbors;
     private final int _generation;
     
     public GraphPoint(NamedID ID, int generation) {
@@ -65,4 +66,6 @@ abstract public class GraphPoint extends Named {
     
     public abstract boolean isNode();
     public abstract boolean isArray();
+    
+   
 }

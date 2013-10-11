@@ -206,19 +206,16 @@ public abstract class AbstractSimpleExporter  extends AbstractExporter {
     
 
     private void addArray(NodeArray array ) { 
-    	// TODO print of array likely needs tweaking too
-        if (array.getArrayType() != NodeArray.ArrayType.NODE) {
-            throw new IllegalArgumentException("Don't know that array type: " 
-                    + array.getArrayType());
-        }
+
         ExportVertex arrayVertex = getExportVertexFromArrray(array);
         exportVertex(arrayVertex);
         final int len = array.getLength();
         ExportVertex[] vertices = new ExportVertex[len];
         boolean hasAValue = false;
-        for (int i = 0; i < len; i++) {
-            GraphPoint ele = array.get(i);
-            //System.out.printf("Adding %d: %s\n", i, ele.toString());
+        int i = 0;
+        // TODO Can I simplify this logic? Seems too complicated.
+        for (GraphPoint ele : array.getElements()) {
+           
             if (ele.hasAttr(Named.VALUE)) {
             	hasAValue = true;
             	vertices[i] = getExportVertexFromArrrayElement(ele);
@@ -226,20 +223,21 @@ public abstract class AbstractSimpleExporter  extends AbstractExporter {
             		exportVertex(vertices[i]);
             	}
             }
+            i++;
             // TODO do we need to handle else case here?
         }
         
         if (!hasAValue) return; 
         final int fromID = arrayVertex.getID();
-        for (int i = 0; i < len; i++) {
-        	if (vertices[i] != null) {
-        		ExportEdge eei = makeExportEdgeFromArrayElement(i,fromID,vertices[i].getID());
+        for (int j = 0; j < len; j++) {
+        	if (vertices[j] != null) {
+        		ExportEdge eej = makeExportEdgeFromArrayElement(j,fromID,vertices[j].getID());
         		if (debug) {
-        			System.out.printf("Adding edge %s from %s to %s\n", eei,arrayVertex,vertices[i]);
+        			System.out.printf("Adding edge %s from %s to %s\n", eej,arrayVertex,vertices[j]);
         		}
-        		exportEdge(eei);
+        		exportEdge(eej);
         	}
-        	// TODO handle else case here?
+        	// TODO handle else case here too?
         }
         
     }

@@ -125,11 +125,7 @@ public class GraphVizExporter extends AbstractExporter {
     }
     
     private void printArray(NodeArray array, int level, PrintStream ostream ) { 
-    	// TODO print of array likely needs tweaking too
-        if (array.getArrayType() != NodeArray.ArrayType.NODE) {
-            throw new IllegalArgumentException("Don't know that array type: " 
-                    + array.getArrayType());
-        }
+
         StringBuilder label = new StringBuilder();
 
         final int len = array.getLength();
@@ -137,8 +133,9 @@ public class GraphVizExporter extends AbstractExporter {
         if (hasSysHash) {
             label.append("{ {");
         }
-        for (int i = 0; i < len; i++) {
-            GraphPoint ele = array.get(i);
+        int i = 0;
+        for (GraphPoint ele : array.getElements()) {
+            
             String subaddr = String.format("<e%d> ", ele.getAttr(Named.ARRAY_INDEX));
             label.append(subaddr);
             if (ele.hasAttr(Named.VALUE)) {
@@ -157,6 +154,7 @@ public class GraphVizExporter extends AbstractExporter {
             if (i < len-1) {
                 label.append('|');
             }
+            i++;
         }
         if (hasSysHash) {
             label.append(String.format(" } | 0x%X }",array.getAttr(Named.SYSTEM_HASH)));

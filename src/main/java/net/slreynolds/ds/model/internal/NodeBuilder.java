@@ -57,17 +57,23 @@ public class NodeBuilder  {
 							classname,length,MAX_ARRAY_LENGTH);
 					length = MAX_ARRAY_LENGTH;
 				}
-				NodeArray array = new NodeArray(NamedIDGenerator.next()," ",NodeArray.ArrayType.NODE,length, generation); 
-				array.putAttr(Named.CLASS,classname);
 				final boolean inlineValues = shouldInlineArrayValues(o,options);
+				NodeArray array = new NodeArray(NamedIDGenerator.next()," ",length, generation, inlineValues); 
+				array.putAttr(Named.CLASS,classname);
+				
 				for(int i = 0; i < length; i++) {
-					Node node = (Node)array.get(i);
 					Object val = getArrayValue(o,i);
-					if (val == null || inlineValues) {
-						node.putAttr(Named.VALUE,val);  
+					if (val == null) continue;
+					// TODO logic broken here if an array contains an array
+					if (inlineValues) {
+						Node node = new Node(NamedIDGenerator.next(),generation);
+						node.putAttr(Named.CLASS, getClassName(val)); 
+						node.putAttr(Named.ARRAY_INDEX,i);
+						node.putAttr(Named.VALUE,val);
+						array.set(i, node);
 					}
 					else if (nestingLevel < MAX_NESTING) {
-						enqueueNode(context, nestingLevel, node," ", val);
+						enqueueNode(context, nestingLevel, array,String.format("%d",i), val);
 					}
 					else {
 						// TODO this log message should really have a name for the object instead of just a type. 
