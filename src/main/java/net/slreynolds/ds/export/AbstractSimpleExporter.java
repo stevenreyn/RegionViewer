@@ -73,15 +73,13 @@ public abstract class AbstractSimpleExporter  extends AbstractExporter {
         	if (point.hasAttr(Named.SYMBOL) && (Boolean)point.getAttr(Named.SYMBOL)) {
         		exportVertex(getExportVertexFromSymbol(point));
         	}
-        	else if (point.isNode()) {
-        		// TODO is-array logic here is too complicated
-            	if (!ExporterUtils.isArrayNode(point))
-            		exportVertex(getExportVertexFromNode(point));
-            }
-            else if (point.isArray()) {
+            else if (point.isArray() && point.areValuesInlined()) {
                 addArray((NodeArray)point);
             }
-        	
+        	else  {
+            	exportVertex(getExportVertexFromNode(point));
+            }
+
         }
         
         
@@ -91,15 +89,6 @@ public abstract class AbstractSimpleExporter  extends AbstractExporter {
             List<Edge> edges = node.getNeighbors();
             for (Edge e : edges) {
             	ExportEdge ee = getExportEdge(e);
-            	GraphPoint fromGp = e.getFrom();
-            	if (ExporterUtils.isArrayNode(fromGp)) {
-            		ee.setLabel(String.format("%d", fromGp.getAttr(Named.ARRAY_INDEX)));
-            		// TODO code too complicated here, Graph should be simplified
-            		NodeArray parent = ((Node)fromGp).getArrayParent();
-            		ExportVertex efv = exportVertices.get(parent);
-            		ee.setFromID(efv.getID());
-            	}
-            	
             	if (debug) {
             		System.out.printf("Adding edge %s from %s to %s\n", ee, ee.getFromID(),ee.getToID());
             	}

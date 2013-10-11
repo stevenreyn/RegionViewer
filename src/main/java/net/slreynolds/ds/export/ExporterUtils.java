@@ -27,31 +27,11 @@ class ExporterUtils {
         return path.substring(slashIdx+1,path.length());
     }
     
-
-    
     static String encloseInQuotes(String arg) {
         return '"' + arg + '"';
     }
     
-
-    static boolean isArrayNode(GraphPoint gp) {
-    	if (gp instanceof Node) {
-    		Node node = (Node)gp;
-    		return (node.getArrayParent() != null);
-    	}
-    	return false;
-    }
-    
     static String id(GraphPoint gp) {
-    	if (isArrayNode(gp)) {
-    		Node node = (Node)gp;
-    		// TODO code too complicated here, Graph should be simplified
-    		NodeArray parent = node.getArrayParent();
-    		
-    		return String.format("%s:e%d", id(parent),
-    					gp.getAttr(Named.ARRAY_INDEX));
-    		
-    	}
     	return String.format("%d", gp.getID());
     }
 
