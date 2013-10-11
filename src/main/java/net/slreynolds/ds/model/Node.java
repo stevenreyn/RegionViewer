@@ -15,13 +15,7 @@ final public class Node extends GraphPoint {
     public Node(NamedID ID, String name, int generation) {
         super(ID,name,generation);
     }
-    
-//    public static Node createHiddenNode(int ID, int generation) {
-//    	Node n = new Node(generation);
-//    	n.putAttr(Named.HIDDEN, true);
-//    	return n;
-//    }
-    
+
     public static Node createSymbol(NamedID ID, String name, int generation) {
     	Node n = new Node(ID, name, generation);
     	n.putAttr(Named.SYMBOL, true);
@@ -42,19 +36,7 @@ final public class Node extends GraphPoint {
     public  boolean areValuesInlined() {
     	return false; // meaningless for a Node
     }
-    
-    Node setArrayParent(NodeArray a) { // TODO code too complicated here
-        if (_arrayParent != null) {
-            throw new IllegalStateException("Node is already in an array");
-        }
-        _arrayParent = a;
-        return this;
-    }
-    
-    public NodeArray getArrayParent() { // TODO code too complicated here
-        return _arrayParent;
-    }
-    
+ 
     @Override
     final public boolean isNode() {return true;}
     @Override
