@@ -35,6 +35,11 @@ final public class NodeArray extends GraphPoint {
     	return ts;
     }
 
+    @Override
+    public boolean areValuesInlined() {
+    	return _inlineValues;
+    }
+    
     public void set(int i, GraphPoint gp) {
          _elements[i] = gp;
     }

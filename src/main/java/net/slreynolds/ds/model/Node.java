@@ -38,6 +38,11 @@ final public class Node extends GraphPoint {
         return (Node) super.removeAttr(key);
     }
     
+    @Override
+    public  boolean areValuesInlined() {
+    	return false; // meaningless for a Node
+    }
+    
     Node setArrayParent(NodeArray a) { // TODO code too complicated here
         if (_arrayParent != null) {
             throw new IllegalStateException("Node is already in an array");

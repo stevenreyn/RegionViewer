@@ -47,13 +47,13 @@ public class GraphVizExporter extends AbstractExporter {
         	if (point.hasAttr(Named.SYMBOL) && (Boolean)point.getAttr(Named.SYMBOL)) {
         		printSymbol(point,1,ostream);
         	}
-        	else if (point.isNode()) {
-            	if (!ExporterUtils.isArrayNode(point))
-            		printNode(point,1,ostream);
-            }
-            else if (point.isArray()) {
+            else if (point.isArray() && point.areValuesInlined()) {
                 printArray((NodeArray)point,1,ostream);
             }
+        	else {
+            	printNode(point,1,ostream);
+            }
+
         }
         
        // --- Export the edges ----
@@ -133,6 +133,7 @@ public class GraphVizExporter extends AbstractExporter {
         if (hasSysHash) {
             label.append("{ {");
         }
+
         int i = 0;
         for (GraphPoint ele : array.getElements()) {
             

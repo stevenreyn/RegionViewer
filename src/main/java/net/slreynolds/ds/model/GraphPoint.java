@@ -35,6 +35,8 @@ abstract public class GraphPoint extends Named {
     	return _generation;
     }
     
+    public abstract boolean areValuesInlined();
+    
     public void add(Edge e) { 
         if (e.getFrom() != this) {
             throw new IllegalArgumentException("Illegal from Node in input edge");
