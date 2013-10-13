@@ -65,7 +65,7 @@ public class TestArrays {
 		ExporterStub exporter = new ExporterStub();
 		ObjectSaver stubSaver = new ObjectSaver(exporter);
 		HashMap<String,Object> options = new HashMap<String,Object>();
-		stubSaver.save(new Object[]{myintarray},new String[]{"myarray"},options);
+		stubSaver.save(new Object[]{myintarray},new String[]{"myintarray"},options);
 		Graph g = exporter.getGraph();
 		assertEquals("num graph points",2,g.getGraphPoints().size());
 		
@@ -86,4 +86,55 @@ public class TestArrays {
 		simpleGvizSaver.save(new Object[]{myintarray},new String[]{"myintarray"},options);
 	}	
 	
+	public static abstract class DoubleOption {
+		public final boolean addInlineOption;
+		public final boolean valueOfInLineOption;
+		public DoubleOption(boolean addit, boolean value) {
+			addInlineOption = addit;
+			valueOfInLineOption = value;
+		}
+		abstract int getNumGraphPoints();
+		abstract String getNameFragment();
+	}
+	
+	public static class DefaultDouble extends DoubleOption {
+		public DefaultDouble() { super(false,false); }
+		int getNumGraphPoints() { return 5; }
+		String getNameFragment() { return "default"; }
+	}
+	
+	@Test
+	public void testDoubleArray() {
+		checkDoubleArray(new DefaultDouble());
+		//checkDoubleArray(new DoubleOption(true,true));
+		//checkDoubleArray(new DoubleOption(false,false));
+	}
+	
+	private void checkDoubleArray(DoubleOption option) {
+		final String name = "myDoubleArray_" + option.getNameFragment();
+		Double[] myDoubleArray = new Double[]{0.0,1.0,2.0};
+		ExporterStub exporter = new ExporterStub();
+		ObjectSaver stubSaver = new ObjectSaver(exporter);
+		HashMap<String,Object> options = new HashMap<String,Object>();
+		
+		stubSaver.save(new Object[]{myDoubleArray},new String[]{name},options);
+		Graph g = exporter.getGraph();
+		assertEquals("num graph points",option.getNumGraphPoints(),g.getGraphPoints().size());
+		
+		GraphPoint gp = g.getPrimaryGraphPoint();
+		assertTrue("primary point isa symbol",gp.hasAttr(Named.SYMBOL));
+		assertTrue("primary point isa symbol",(Boolean)gp.getAttr(Named.SYMBOL));
+		assertEquals("primary has one link",1,gp.getNeighbors().size());
+		
+		String dir = "test_output/";
+		ObjectSaver gvizSaver = new ObjectSaver(new GraphVizExporter());
+		new File(dir+name+".dot").delete();
+		options.put(ExporterOptions.OUTPUT_PATH, dir+name+".dot");
+		gvizSaver.save(new Object[]{myDoubleArray},new String[]{name},options);
+		
+		ObjectSaver simpleGvizSaver = new ObjectSaver(new SimpleGraphVizExporter());
+		new File(dir+name+"_simple.dot").delete();
+		options.put(ExporterOptions.OUTPUT_PATH, dir+name+"_simple.dot");
+		simpleGvizSaver.save(new Object[]{myDoubleArray},new String[]{name},options);
+	}	
 }
