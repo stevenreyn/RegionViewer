@@ -86,10 +86,10 @@ public class TestArrays {
 		simpleGvizSaver.save(new Object[]{myintarray},new String[]{"myintarray"},options);
 	}	
 	
-	public static abstract class DoubleOption {
+	public static abstract class DoubleArrayTestConfig {
 		public final boolean addInlineOption;
 		public final boolean valueOfInLineOption;
-		public DoubleOption(boolean addit, boolean value) {
+		public DoubleArrayTestConfig(boolean addit, boolean value) {
 			addInlineOption = addit;
 			valueOfInLineOption = value;
 		}
@@ -97,29 +97,43 @@ public class TestArrays {
 		abstract String getNameFragment();
 	}
 	
-	public static class DefaultDouble extends DoubleOption {
+	public static class DefaultDouble extends DoubleArrayTestConfig {
 		public DefaultDouble() { super(false,false); }
 		int getNumGraphPoints() { return 5; }
 		String getNameFragment() { return "default"; }
 	}
 	
+	public static class NoInline extends DoubleArrayTestConfig {
+		public NoInline() { super(true,false); }
+		int getNumGraphPoints() { return 5; }
+		String getNameFragment() { return "noinline"; }
+	}
+	
+	public static class DoInline extends DoubleArrayTestConfig {
+		public DoInline() { super(true,true); }
+		int getNumGraphPoints() { return 2; }
+		String getNameFragment() { return "doinline"; }
+	}
+	
 	@Test
 	public void testDoubleArray() {
 		checkDoubleArray(new DefaultDouble());
-		//checkDoubleArray(new DoubleOption(true,true));
-		//checkDoubleArray(new DoubleOption(false,false));
+		checkDoubleArray(new NoInline());
+		checkDoubleArray(new DoInline());
 	}
 	
-	private void checkDoubleArray(DoubleOption option) {
-		final String name = "myDoubleArray_" + option.getNameFragment();
+	private void checkDoubleArray(DoubleArrayTestConfig testConfig) {
+		final String name = "myDoubleArray_" + testConfig.getNameFragment();
 		Double[] myDoubleArray = new Double[]{0.0,1.0,2.0};
 		ExporterStub exporter = new ExporterStub();
 		ObjectSaver stubSaver = new ObjectSaver(exporter);
 		HashMap<String,Object> options = new HashMap<String,Object>();
-		
+		if (testConfig.addInlineOption) {
+			options.put(BuilderOptions.INLINE_NUMBERS,testConfig.valueOfInLineOption);
+		}
 		stubSaver.save(new Object[]{myDoubleArray},new String[]{name},options);
 		Graph g = exporter.getGraph();
-		assertEquals("num graph points",option.getNumGraphPoints(),g.getGraphPoints().size());
+		assertEquals("num graph points",testConfig.getNumGraphPoints(),g.getGraphPoints().size());
 		
 		GraphPoint gp = g.getPrimaryGraphPoint();
 		assertTrue("primary point isa symbol",gp.hasAttr(Named.SYMBOL));
