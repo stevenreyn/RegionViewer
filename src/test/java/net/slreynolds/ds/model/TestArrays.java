@@ -117,6 +117,7 @@ public class TestArrays {
 	
 	@Test
 	public void testDoubleArray() {
+		assertEquals(false,BuilderOptions.DEFAULT_INLINE_NUMBERS);
 		checkDoubleArray(new DefaultDouble());
 		checkDoubleArray(new NoInline());
 		checkDoubleArray(new DoInline());
