@@ -19,21 +19,22 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
-
 javadoc.excludes = ['**/internal/**']
 
-// TODO configuration of myProguard task is not done yet!
 task myProguard(type: proguard.gradle.ProGuardTask)  {
+     libraryjars System.env.'JAVA_HOME'  + 'jre/lib/rt.jar'
      injars 'build/libs/RegionViewer.jar'
      outjars 'build/libs/temp.jar'
      keep  'class net.slreynolds.ds.model.Builder'
-//     keepclass net.slreynolds.ds.model.BuilderOptions
-//     keepclass net.slreynolds.ds.ObjectSaver
-//     keepclass net.slreynolds.ds.export.GraphMLExporter
-//     keepclass net.slreynolds.ds.export.GraphVizExporter
-//     keepclass net.slreynolds.ds.export.SimpleGraphVizExporter
-//     keepclass net.slreynolds.ds.export.TulipExporter
-//     keepclass net.slreynolds.ds.export.ExporterOptions
-//     keepclass net.slreynolds.ds.export.Exporter
+     keep 'class net.slreynolds.ds.model.BuilderOptions'
+     keep 'class net.slreynolds.ds.ObjectSaver'
+     keep 'class net.slreynolds.ds.export.GraphMLExporter'
+     keep 'class net.slreynolds.ds.export.GraphVizExporter'
+     keep 'class net.slreynolds.ds.export.SimpleGraphVizExporter'
+     keep 'class net.slreynolds.ds.export.TulipExporter'
+     keep 'class net.slreynolds.ds.export.ExporterOptions'
+     keep 'class net.slreynolds.ds.export.Exporter'
 }
 myProguard.dependsOn jar
+
+
