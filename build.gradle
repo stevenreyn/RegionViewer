@@ -7,6 +7,7 @@ buildscript {
     }
     dependencies {
         classpath  group: 'net.sf.proguard', name: 'proguard-gradle', version: '4.10'
+        classpath  group: 'net.sf.proguard', name: 'proguard-parent', version: '4.10'
     }
 }
 
@@ -21,10 +22,10 @@ dependencies {
 
 javadoc.excludes = ['**/internal/**']
 
-// TODO myProguard task does not work yet
+// TODO configuration of myProguard task is not done yet!
 task myProguard(type: proguard.gradle.ProGuardTask)  {
-     injars 'RegionViewer.jar'
-     outjars 'temp.jar'
+     injars 'build/libs/RegionViewer.jar'
+     outjars 'build/libs/temp.jar'
      keep  'class net.slreynolds.ds.model.Builder'
 //     keepclass net.slreynolds.ds.model.BuilderOptions
 //     keepclass net.slreynolds.ds.ObjectSaver
