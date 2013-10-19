@@ -21,17 +21,17 @@ dependencies {
 
 javadoc.excludes = ['**/internal/**']
 
-// task myProguard(type: proguard.gradle.ProGuardTask) << {
-    // injars RegionViewer.jar
-    // outjars RegionViewerObfs.jar
-    // keepclass net.slreynolds.ds.model.Builder
-    // keepclass net.slreynolds.ds.model.BuilderOptions
-    // keepclass net.slreynolds.ds.ObjectSaver
-    // keepclass net.slreynolds.ds.export.GraphMLExporter
-    // keepclass net.slreynolds.ds.export.GraphVizExporter
-    // keepclass net.slreynolds.ds.export.SimpleGraphVizExporter
-    // keepclass net.slreynolds.ds.export.TulipExporter
-    // keepclass net.slreynolds.ds.export.ExporterOptions
-    // keepclass net.slreynolds.ds.export.Exporter
-// }
-
+task myProguard(type: proguard.gradle.ProGuardTask)  {
+     injars 'RegionViewer.jar'
+     outjars 'temp.jar'
+     keep  'class net.slreynolds.ds.model.Builder'
+//     keepclass net.slreynolds.ds.model.BuilderOptions
+//     keepclass net.slreynolds.ds.ObjectSaver
+//     keepclass net.slreynolds.ds.export.GraphMLExporter
+//     keepclass net.slreynolds.ds.export.GraphVizExporter
+//     keepclass net.slreynolds.ds.export.SimpleGraphVizExporter
+//     keepclass net.slreynolds.ds.export.TulipExporter
+//     keepclass net.slreynolds.ds.export.ExporterOptions
+//     keepclass net.slreynolds.ds.export.Exporter
+}
+myProguard.dependsOn jar
