@@ -21,6 +21,7 @@ dependencies {
 
 javadoc.excludes = ['**/internal/**']
 
+// TODO myProguard task does not work yet
 task myProguard(type: proguard.gradle.ProGuardTask)  {
      injars 'RegionViewer.jar'
      outjars 'temp.jar'
