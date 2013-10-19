@@ -25,7 +25,13 @@ task myProguard(type: proguard.gradle.ProGuardTask)  {
      libraryjars System.env.'JAVA_HOME'  + 'jre/lib/rt.jar'
      injars 'build/libs/RegionViewer.jar'
      outjars 'build/libs/temp.jar'
+     printmapping 'out.map'
+     printseeds 'proguard_seeds.txt'
+     keepparameternames
      keep  'class net.slreynolds.ds.model.Builder'
+     keep  'class net.slreynolds.ds.model.BuildException'
+     keep  'class net.slreynolds.ds.model.Graph'
+     keep  'class net.slreynolds.ds.model.GraphBuilder'
      keep 'class net.slreynolds.ds.model.BuilderOptions'
      keep 'class net.slreynolds.ds.ObjectSaver'
      keep 'class net.slreynolds.ds.export.GraphMLExporter'
@@ -33,7 +39,13 @@ task myProguard(type: proguard.gradle.ProGuardTask)  {
      keep 'class net.slreynolds.ds.export.SimpleGraphVizExporter'
      keep 'class net.slreynolds.ds.export.TulipExporter'
      keep 'class net.slreynolds.ds.export.ExporterOptions'
+     keep 'class net.slreynolds.ds.export.ExporterException'
+     keep 'class net.slreynolds.ds.export.AbstractException'
      keep 'class net.slreynolds.ds.export.Exporter'
+     keep 'public class net.slreynolds.ds.* { public protected *; }'
+     keep 'public class net.slreynolds.ds.export.* { public protected *; }'
+     keep 'public class net.slreynolds.ds.model.* { public protected *; }'
+//     keep 'classmembers enum * { public static **[] values(); public static ** valueOf(java.lang.String); }'
 }
 myProguard.dependsOn jar
 
